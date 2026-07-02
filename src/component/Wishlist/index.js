@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import "./Wishlist.css"
 
 
@@ -10,16 +10,10 @@ const Wishlist = () => {
     const user = JSON.parse(localStorage.getItem("user")) || []
     const userId = user?.id
 
-    useEffect(() => {
-        if (userId) {
-            getAllWishlist()
-
-        }
-
-    }, [userId])
+  
 
 
-    const getAllWishlist = async  () => {
+    const getAllWishlist = useCallback(async  () => {
 
         try {
 
@@ -39,7 +33,15 @@ const Wishlist = () => {
             console.log("something went to wrong", err)
         }
 
-    }
+    },[userId])
+
+      useEffect(() => {
+        if (userId) {
+            getAllWishlist()
+
+        }
+
+    }, [getAllWishlist,userId])
     return (
         <div className="wishlist-container">
             {wishlist.map((items) => (

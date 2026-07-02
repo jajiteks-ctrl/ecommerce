@@ -37,7 +37,7 @@ const SingleProduct = () => {
     return (
 
         <div>
-            <h1>Single Product</h1>
+           <img src = {singleProduct?.image} alt = ""/>
             
         </div>
     )
