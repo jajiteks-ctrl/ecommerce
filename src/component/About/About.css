@@ -1,0 +1,8 @@
+.rose-img {
+    width:100px;
+}
+.bg-container {
+    background-image: url("../image/natures.jpg");
+    background-size: cover;
+    height:100vh;
+}
