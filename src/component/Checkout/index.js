@@ -208,7 +208,7 @@
 
 
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useState,useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import "./checkout.css"
 
@@ -235,9 +235,9 @@ const Checkout = () => {
         if (user?.id) {
             fetchCart()
         }
-    }, [])
+    }, fetchCart,[user?.id])
 
-    const fetchCart = async () => {
+    const fetchCart = useCallback(async () => {
         try {
             const res = await axios.get(
                 `https://wqjaxtdxzjmlsaeoxyhq.supabase.co/rest/v1/cart?user_id=eq.${user.id}&select=*,products(*)`,
@@ -263,8 +263,8 @@ const Checkout = () => {
         } catch (err) {
             console.log(err.response?.data || err.message)
         }
-    }
-
+    },[user?.id]
+)
     const totalPrice = cart.reduce((total, item) => {
         return total + item.products.price * item.quantity
     }, 0)
