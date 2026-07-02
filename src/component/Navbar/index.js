@@ -47,7 +47,7 @@ const Navbar = ({ displayUser }) => {
                             {displayUser.username}
                         </span>
                     )}
-                    <button onClick = {handleLogout}>Logout</button>
+                    <button onClick = {handleLogout}>Logout User</button>
                 </>) : (<> <Link to="/register">Register</Link>
                     <Link to="/login">Login</Link>
                 </>)}

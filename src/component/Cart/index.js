@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 
 const Cart = () => {
@@ -7,15 +7,7 @@ const Cart = () => {
     const [cart, setCart] = useState([])
     const user = JSON.parse(localStorage.getItem("user")) || []
 
-    useEffect(() => {
-        if (user?.id) {
-            fecthCart()
-
-        }
-    }, [user?.id])
-
-
-    const fecthCart = async () => {
+    const fecthCart = useCallback(async () => {
 
         try {
             const res = await axios.get(`https://wqjaxtdxzjmlsaeoxyhq.supabase.co/rest/v1/cart?user_id=eq.${user.id}&select=*,products(*)`, {
@@ -51,7 +43,15 @@ const Cart = () => {
         }
 
 
-    }
+    } ,[user?.id]
+    )
+
+
+    useEffect(() => {
+        if (user?.id) {
+            fecthCart();
+        }
+    }, [user?.id, fecthCart]);
 
     const cartIncrement = async (items) => {
 
@@ -79,7 +79,7 @@ const Cart = () => {
 
     return (
         <div>
-            
+
             <div>
 
                 {cart.map((items) => (
@@ -92,7 +92,7 @@ const Cart = () => {
 
             </div>
 
-            <button onClick = {()=>navigate("/checkout")}>Check out</button>
+            <button onClick={() => navigate("/checkout")}>Check out</button>
         </div>
     )
 
